@@ -1,23 +1,27 @@
- #!/usr/bin/env python3
- # SPDX-FileCopyrightText: 2025 Keito Tadano
- # SPDX-License-Identifier: BSD-3-Clause
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2025 Keito Tadano
+# SPDX-License-Identifier: BSD-3-Clause
 
- import launch
- import launch.actions
- import launch.substitutions
- import launch_ros.actions
+from launch import LaunchDescription
+from launch_ros.actions import Node
 
 
- def generate_launch_description():
+def generate_launch_description():
 
-     talker = launch_ros.actions.Node(
-         package='mypkg',      #パッケージの名前を指定
-         executable='talker',  #実行するファイルの指定
-         )
-     listener = launch_ros.actions.Node(
-         package='mypkg',
-         executable='listener',
-         output='screen'        #ログを端末に出すための設定                                   
-         )
+    talker = Node(
+        package='mypkg',
+        executable='talker',
+        output='screen',
+    )
 
-     return launch.LaunchDescription([talker, listener])   
+    listener = Node(
+        package='mypkg',
+        executable='listener',
+        output='screen',
+    )
+
+    return LaunchDescription([
+        talker,
+        listener
+    ])
+
