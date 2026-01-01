@@ -4,30 +4,20 @@
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Int32, Float32
+from std_msgs.msg import Float32
 
-class ActivityMonitorListener(Node):
+class LoadListener(Node):
     def __init__(self):
-        super().__init__("activity_monitor_listener")
+        super().__init__("load_listener")
+        self.create_subscription(Float32, "cpu_load", self.load_callback, 10)
+        self.get_logger().info("Load Listener Node started")
 
-        self.create_subscription(Int32, "keyboard_count", self.kb_callback, 10)
-        self.create_subscription(Int32, "mouse_click_count", self.click_callback, 10)
-        self.create_subscription(Float32, "mouse_move_distance", self.move_callback, 10)
-
-        self.get_logger().info("Activity Monitor Listener Node started")
-
-    def kb_callback(self, msg):
-        self.get_logger().info(f"Keyboard count: {msg.data}")
-
-    def click_callback(self, msg):
-        self.get_logger().info(f"Mouse click count: {msg.data}")
-
-    def move_callback(self, msg):
-        self.get_logger().info(f"Mouse move distance: {msg.data:.2f}")
+    def load_callback(self, msg):
+        self.get_logger().info(f"Current CPU load (1min avg): {msg.data:.2f}")
 
 def main():
     rclpy.init()
-    node = ActivityMonitorListener()
+    node = LoadListener()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:

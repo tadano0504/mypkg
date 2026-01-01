@@ -14,7 +14,7 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name),glob('launch/*.launch.py')),
     ],
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'pynput'],
     zip_safe=True,
     maintainer='keito',
     maintainer_email='0504keito@gmail.com',
