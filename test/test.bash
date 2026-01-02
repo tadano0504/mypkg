@@ -7,7 +7,7 @@ ng () {
     exit 1
 }
 
-cd ~/ros2_ws || ng
+cd /root/ros2_ws || ng
 colcon build > /dev/null 2>&1 || ng
 
 source /opt/ros/humble/setup.bash
