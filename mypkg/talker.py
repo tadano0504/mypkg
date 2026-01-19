@@ -5,24 +5,23 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32
-import os
+import random
 
-class LoadTalker(Node):
+class TestTalker(Node):
     def __init__(self):
-        super().__init__("load_talker")
-        self.load_pub = self.create_publisher(Float32, "cpu_load", 10)
-        self.create_timer(1.0, self.publish_load)  # 1秒ごとに送信
-        self.get_logger().info("Load Talker Node started")
+        super().__init__("test_talker")
+        self.publisher = self.create_publisher(Float32, "input_value", 10)
+        self.create_timer(1.0, self.publish_value)
+        self.get_logger().info("Test Talker Node started")
 
-    def publish_load(self):
-        load_1min = os.getloadavg()[0]  # 1分平均の負荷
+    def publish_value(self):
         msg = Float32()
-        msg.data = float(load_1min)
-        self.load_pub.publish(msg)
+        msg.data = random.uniform(0.0, 100.0)
+        self.publisher.publish(msg)
 
 def main():
     rclpy.init()
-    node = LoadTalker()
+    node = TestTalker()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
