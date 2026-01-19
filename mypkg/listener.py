@@ -4,20 +4,46 @@
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Float32
+from std_msgs.msg import Float32, String
 
-class LoadListener(Node):
+class ThresholdListener(Node):
     def __init__(self):
-        super().__init__("load_listener")
-        self.create_subscription(Float32, "cpu_load", self.load_callback, 10)
-        self.get_logger().info("Load Listener Node started")
+        super().__init__("threshold_listener")
 
-    def load_callback(self, msg):
-        self.get_logger().info(f"Current CPU load (1min avg): {msg.data:.2f}")
+        self.sub = self.create_subscription(
+            Float32,
+            "input_value",
+            self.callback,
+            10
+        )
+
+        self.pub = self.create_publisher(
+            String,
+            "judge_result",
+            10
+        )
+
+        self.get_logger().info("Threshold Listener Node started")
+
+    def callback(self, msg):
+        value = msg.data
+
+        if value < 30.0:
+            result = "LOW"
+        elif value < 70.0:
+            result = "MID"
+        else:
+            result = "HIGH"
+
+        out = String()
+        out.data = result
+        self.pub.publish(out)
+
+        self.get_logger().info(f"value={value:.2f} -> {result}")
 
 def main():
     rclpy.init()
-    node = LoadListener()
+    node = ThresholdListener()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
