@@ -7,11 +7,16 @@ ng () {
     exit 1
 }
 
-cd ~/ros2_ws || ng
-colcon build > /dev/null 2>&1 || ng
+cd /github/workspace || ng
 
-source /opt/ros/humble/setup.bash
-source install/setup.bash
+source /opt/ros/humble/setup.bash || ng
+
+mkdir -p ros2_ws/src
+rsync -av ./ ros2_ws/src/mypkg > /dev/null
+
+cd ros2_ws || ng
+colcon build > /dev/null 2>&1 || ng
+source install/setup.bash || ng
 
 timeout 10 ros2 launch mypkg talk_listen.launch.py \
   > /tmp/mypkg.log 2>&1 || true
