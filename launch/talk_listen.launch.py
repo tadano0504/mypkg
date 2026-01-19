@@ -5,23 +5,19 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
-
 def generate_launch_description():
-
-    talker = Node(
-        package='mypkg',
-        executable='talker',
-        output='screen',
-    )
-
-    listener = Node(
-        package='mypkg',
-        executable='listener',
-        output='screen',
-    )
-
     return LaunchDescription([
-        talker,
-        listener
+        Node(
+            package="mypkg",
+            executable="talker",
+            name="test_talker",
+            output="screen"
+        ),
+        Node(
+            package="mypkg",
+            executable="listener",
+            name="threshold_listener",
+            output="screen"
+        ),
     ])
 
