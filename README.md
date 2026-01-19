@@ -3,16 +3,22 @@
 
 本リポジトリは千葉工業大学 未来ロボティクス学科 2025年度 ロボットシステム学内で行った内容に基づいて作成された課題提出用リポジトリです。
 
-## CPU負荷チェッカー
-CPU の 1分平均負荷 を定期的に取得し、ROS 2 トピック cpu_load に送信するノードです。
-1秒ごとに負荷を計測して Float32 型で配信するため、他ノードはこのトピックを購読することで、システムの負荷状況をリアルタイムで監視できます。
+## 概要
+本パッケージは、数値データを ROS 2 トピックとして送信し、
+受信側ノードでその値を基準値と比較して状態判定を行う
+シンプルな ROS 2 ノード構成の例です。
+
+ノード間通信（Publisher / Subscriber）および
+launch ファイルによる複数ノード同時起動の理解を目的としています。
 
 ## talker.py
-- OS の 1分平均 CPU 負荷を定期的に取得します。
-- 取得した負荷を cpu_load トピックとして配信します。
+-数値データを一定周期で生成します
+-生成した値を /input_value トピックに送信します
+-メッセージ型は std_msgs/msg/Float32 を使用しています
 ## listener.py
-- cpu_load トピックを購読します。
-- 受信した CPU 負荷をログとして表示します。
+-/input_value トピックを購読します
+-受信した数値を、あらかじめ設定された基準値と比較します
+-判定結果をログとして出力します
 ## talk_listen.launch.py
 - talker ノードと listener ノードを同時に起動します。
 
@@ -22,13 +28,13 @@ CPU の 1分平均負荷 を定期的に取得し、ROS 2 トピック cpu_load 
 - Python version: 3.10  
 
 ## 実行準備
-下記のコマンドを使用し、クローンを行ってください。
+以下のコマンドでリポジトリを取得し、ビルドを行います。
 
 ```shell
-$ cd ~/ros2_ws/src
-$ git clone https://github.com/tadano0504/mypkg.git
-$ cd ~/ros2_ws
-$ colcon build
+$ cd ~/ros2_ws/src 
+$ git clone https://github.com/tadano0504/mypkg.git 
+$ cd ~/ros2_ws 
+$ colcon build 
 $ source install/setup.bash
 ```
 
@@ -41,10 +47,9 @@ $ ros2 launch mypkg talk_listen.launch.py
 
 出力例
 ```shell
-[listener-2] [INFO] [1766940375.405980169] [listener]: CPU Load: 0.53
-[listener-2] [INFO] [1766940376.405980169] [listener]: CPU Load: 0.49
-[listener-2] [INFO] [1766940377.405980169] [listener]: CPU Load: 0.51
-
+[listener] [INFO] Received value: 0.42 -> LOW 
+[listener] [INFO] Received value: 0.78 -> HIGH 
+[listener] [INFO] Received value: 0.55 -> LOW
 ```
 
 ## 著作権・ライセンス
