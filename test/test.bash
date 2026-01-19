@@ -7,7 +7,7 @@ ng () {
     exit 1
 }
 
-cd /github/workspace || ng
+cd "$(dirname "$0")/../.." || ng
 
 source /opt/ros/humble/setup.bash || ng
 
