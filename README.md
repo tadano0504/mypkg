@@ -20,7 +20,8 @@
 ## listenerノード
 - /input_value トピックを購読します  
 - 受信した数値を、あらかじめ設定された基準値と比較します  
-- 判定結果をログとして出力します  
+- 判定結果を /judge_result トピックとして publish します 
+- メッセージ型は std_msgs/msg/String です 
 ## launchファイル
 - talker ノードと listener ノードを同時に起動します。
 
