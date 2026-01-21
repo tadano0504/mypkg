@@ -30,16 +30,16 @@
 - ROS 2: Humble  
 - Python version: 3.10  
 
-## 実行準備
-以下のコマンドでリポジトリを取得し、ビルドを行います。
+## インストール
+
+本パッケージは GitHub から取得できます。
 
 ```shell
-$ cd ~/ros2_ws/src 
 $ git clone https://github.com/tadano0504/mypkg.git 
-$ cd ~/ros2_ws 
-$ colcon build 
-$ source install/setup.bash
 ```
+
+本パッケージは ROS 2 ワークスペースに配置し、
+通常の colcon ビルド手順でビルドしてください。
 
 ## 使い方
 
