@@ -14,8 +14,9 @@ class ThresholdListener(Node):
         self.declare_parameter("low_threshold", 30.0)
         self.declare_parameter("high_threshold", 70.0)
 
-        self.low = self.get_parameter("low_threshold").value
-        self.high = self.get_parameter("high_threshold").value
+        self.low = float(self.get_parameter("low_threshold").value)
+        self.high = float(self.get_parameter("high_threshold").value)
+
 
         self.get_logger().info(
             f"Thresholds: low={self.low}, high={self.high}"
