@@ -48,12 +48,20 @@ launch ファイルを使って talker と listener を同時に起動します�
 $ ros2 launch mypkg talk_listen.launch.py
 ```
 
-出力例
+listener ノードは次の ROS 2 パラメータを持ちます。
+- low_threshold（デフォルト: 30.0）
+- high_threshold（デフォルト: 70.0）
+
+これらは起動時に次のように変更できます。
 ```shell
-[listener] [INFO] Received value: 0.42 -> LOW 
-[listener] [INFO] Received value: 0.78 -> HIGH 
-[listener] [INFO] Received value: 0.55 -> LOW
+$ ros2 launch mypkg talk_listen.launch.py low_threshold:=40 high_threshold:=80
 ```
+
+listener ノードは /input_value トピック（std_msgs/msg/Float32）で受信した数値を
+これらの閾値と比較し，判定結果を /judge_result トピック（std_msgs/msg/String）として publish します。
+
+他の ROS 2 ノードは /input_value に数値を publish することで，
+本パッケージの判定ノードをそのまま利用できます。
 
 ## 著作権・ライセンス
 - このソフトウェアパッケージは、3条項BSDライセンスの下、再頒布および使用が許可されています。
