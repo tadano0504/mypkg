@@ -39,10 +39,11 @@ def generate_launch_description():
             executable="listener",
             name="threshold_listener",
             output="screen",
-            parameters=[
-                {"low_threshold": low},
-                {"high_threshold": high}
-            ]
+            parameters=[{
+                "low_threshold": low,
+                "high_threshold": high
+            }]
+
         ),
     ])
 
