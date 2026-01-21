@@ -8,15 +8,15 @@
 汎用的な閾値判定ノードを提供します。
 センサ値・スコア・確率など任意の Float32 データに対して使用できます。
 
-## talker.py
+## talkerノード
 -数値データを一定周期で生成します 
 -生成した値を /input_value トピックに送信します  
 -メッセージ型は std_msgs/msg/Float32 を使用しています  
-## listener.py
+## listenerノード
 -/input_value トピックを購読します  
 -受信した数値を、あらかじめ設定された基準値と比較します  
 -判定結果をログとして出力します  
-## talk_listen.launch.py
+## launchファイル
 - talker ノードと listener ノードを同時に起動します。
 
 ## テスト環境
